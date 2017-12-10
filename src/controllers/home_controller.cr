@@ -19,6 +19,16 @@ class HomeController < ApplicationController
       puts board.pieces
     end
 
+    profile2 = Profile.new(name: "profile2")
+    game = Game.new
+    board.game = game
+    board.save
+
+    game.profile = profile
+    #game.profile2 = profile2
+    game.save
+    puts game.inspect
+
     render("index.slang")
   end
 end

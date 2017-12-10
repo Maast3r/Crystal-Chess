@@ -9,3 +9,4 @@ CREATE TABLE profiles (
 
 -- +micrate Down
 DROP TABLE IF EXISTS profiles;
+

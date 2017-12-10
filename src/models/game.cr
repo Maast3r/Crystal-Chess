@@ -1,14 +1,13 @@
 require "granite_orm/adapter/pg"
 
-class Profile < Granite::ORM::Base
+class Game < Granite::ORM::Base
   adapter pg
-  table_name profiles
+  table_name games
 
-  has_many :games
+  belongs_to :profile
+  belongs_to :profile
 
   field name : String
-
   # id : Int64 primary key is created for you
   timestamps
 end
-
