@@ -1,33 +1,14 @@
 class HomeController < ApplicationController
   def index
     profile = Profile.new(name: "profile")
-    puts profile.name
     profile.save
-    piece = Piece.new(name: "piece")
-    puts piece.name
-    board = Board.new(title: "test")
-    board.save
-    piece.board = board
-    piece.save
-    
-    a =  [1,2,3]
-    a << 4
-    puts a
 
-    boards = Board.all
-    boards.each do |board|
-      puts board.pieces
-    end
+    game_test = Game.new(name: "Game")
+    game_test = game_test.initialize_new_game(profile, profile)
 
-    profile2 = Profile.new(name: "profile2")
-    game = Game.new
-    board.game = game
-    board.save
-
-    game.profile = profile
-    #game.profile2 = profile2
-    game.save
-    puts game.inspect
+    puts game_test.boards
+    puts game_test.inspect
+    puts game_test.boards[0].pieces
 
     render("index.slang")
   end
