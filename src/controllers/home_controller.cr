@@ -4,7 +4,7 @@ class HomeController < ApplicationController
     profile.save
 
     game_test = Game.new(name: "Game")
-    game_test = game_test.initialize_new_game(profile, profile)
+    game_test.initialize_new_game(profile, profile)
 
     puts game_test.boards
     puts game_test.inspect

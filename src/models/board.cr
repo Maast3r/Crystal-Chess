@@ -11,19 +11,16 @@ class Board < Granite::ORM::Base
   # id : Int64 primary key is created for you
   timestamps
 
-  def initialize_pieces(game)
+  def initialize_pieces(game) : Nil
     self.save
     self.game = game 
     @title = "Game Board"
     
     initialize_pawns(true)
     initialize_pawns(false)
-
-    self.save
-    self
   end
 
-  def initialize_pawns(color)
+  def initialize_pawns(color) : Nil
     y = color ? 1 : 6
     (0..8).each do |i|
       new_pawn = Piece.new(name: "pawn", color: color)
