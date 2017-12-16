@@ -10,6 +10,7 @@ class Piece < Granite::ORM::Base
   field name : String
   field x : Int32
   field y : Int32
+  field taken : Bool
 
   # id : Int64 primary key is created for you
   timestamps

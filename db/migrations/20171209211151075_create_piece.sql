@@ -5,6 +5,7 @@ CREATE TABLE pieces (
   name VARCHAR(255),
   x INT,
   y INT,
+  taken BOOLEAN,
   board_id BIGINT,
   created_at TIMESTAMP,
   updated_at TIMESTAMP

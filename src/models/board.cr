@@ -14,30 +14,35 @@ class Board < Granite::ORM::Base
   @row_white = 0
   @row_black = 7
 
-  def initialize_pieces(game) : Nil
+  @letter_to_num = {
+    "a": 0, "b": 1, "c": 2, "d": 3,
+    "e": 4, "f": 5, "g": 6, "h": 7
+  }
+
+  def initialize_pieces(game : Game) : Nil
     self.save
     self.game = game 
     @title = "Game Board"
     
-    initialize_pawns()
+    initialize_pawns
 
-    initialize_other_pieces("rook", [0, 7])
-    initialize_other_pieces("knight", [1, 6])
-    initialize_other_pieces("bishop", [2, 5])
-    initialize_other_pieces("king", [3])
-    initialize_other_pieces("queen",[4])
+    initialize_other_pieces("R", [0, 7])
+    initialize_other_pieces("N", [1, 6])
+    initialize_other_pieces("B", [2, 5])
+    initialize_other_pieces("K", [3])
+    initialize_other_pieces("Q",[4])
   end
 
-  def create_piece(name, color, x, y) : Nil
-    piece = Piece.new(name: name, color: color, x: x, y: y)
+  def create_piece(name : String, color : Bool, x : Int32, y : Int32) : Nil
+    piece = Piece.new(name: name, color: color, x: x, y: y, taken: false)
     piece.board = self
     piece.save
   end
 
-  def initialize_pawns() : Nil
-    (0..7).each do |i|
-      create_piece("pawn", true, @row_white+1, i)
-      create_piece("pawn", false, @row_black-1, i)
+  def initialize_pawns : Nil
+    (0..7).each do |y|
+      create_piece("P", true, @row_white+1, y)
+      create_piece("P", false, @row_black-1, y)
     end
   end
 
@@ -46,6 +51,26 @@ class Board < Granite::ORM::Base
       create_piece(name, true, @row_white, y)
       create_piece(name, false, @row_black, y)
     end
+  end
+
+  #
+  # Move formats follow normal chess notation (Qe4)
+  # pawns don't normally get a letter in normal chess notation,
+  # but it is easier to code with it in. we can remove it in the front-end
+  # We can also eventually write an endpoint that sends a specific piece with
+  # the new x and y so we support both inputs
+  #
+  def parse_move(move : String) : Piece | Nil
+    name, new_x, new_y  = move.split("")
+    @pieces.each do |piece|
+      return piece if piece.name == name && valid_move?(piece, new_x, new_y)
+    end 
+    return nil
+  end
+
+  def valid_move?(piece : Piece, new_x : String, new_y : String) : Bool
+    # try to dyanmically check valid piece placement 
+    # or write the rules in a library module?
   end
 
 end
