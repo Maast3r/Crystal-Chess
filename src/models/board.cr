@@ -24,6 +24,9 @@ class Board < Granite::ORM::Base
     self.game = game 
     @title = "Game Board"
     
+    # Since granite doesn't support STI and we can't get jennifer to work
+    # with amber, we're going to crudely make pieces like this for now
+
     initialize_pawns
 
     initialize_other_pieces("R", [0, 7])
@@ -57,7 +60,7 @@ class Board < Granite::ORM::Base
   # Move formats follow normal chess notation (Qe4)
   # pawns don't normally get a letter in normal chess notation,
   # but it is easier to code with it in. we can remove it in the front-end
-  # We can also eventually write an endpoint that sends a specific piece with
+  # We can also eventually use valid move for an endpoint that sends a specific piece with
   # the new x and y so we support both inputs
   #
   def parse_move(move : String) : Piece | Nil
