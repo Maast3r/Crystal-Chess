@@ -12,6 +12,10 @@ shards:
     github: mosop/cli
     version: 0.6.10
 
+  crt:
+    github: maiha/crt.cr
+    version: 0.3.0
+
   db:
     github: crystal-lang/crystal-db
     version: 0.4.3

@@ -16,6 +16,10 @@ targets:
     main: lib/amber/src/amber/cli.cr
 
 dependencies:
+  crt:
+    github: maiha/crt.cr
+    version: 0.3.0
+
   amber:
     github: amberframework/amber
     version: 0.3.6
