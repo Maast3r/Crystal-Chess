@@ -19,6 +19,11 @@ class Game < Granite::ORM::Base
     board = Board.new(title: "Chess game")
     board.game = self 
     board.initialize_pieces(self)
+    self.save
+  end
+
+  def board
+    boards.first
   end
 
 end

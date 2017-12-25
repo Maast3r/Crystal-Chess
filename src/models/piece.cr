@@ -11,6 +11,7 @@ class Piece < Granite::ORM::Base
   field x : Int32
   field y : Int32
   field taken : Bool
+  field points : Int32
 
   # id : Int64 primary key is created for you
   timestamps

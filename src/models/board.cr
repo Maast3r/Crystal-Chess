@@ -37,7 +37,7 @@ class Board < Granite::ORM::Base
   end
 
   def create_piece(name : String, color : Bool, x : Int32, y : Int32) : Nil
-    piece = Piece.new(name: name, color: color, x: x, y: y, taken: false)
+    piece = Piece.new(name: name, color: color, x: x, y: y, taken: false, points: 0)
     piece.board = self
     piece.save
   end
@@ -65,7 +65,7 @@ class Board < Granite::ORM::Base
   #
   def parse_move(move : String) : Piece | Nil
     name, new_x, new_y  = move.split("")
-    @pieces.each do |piece|
+    pieces.each do |piece|
       return piece if piece.name == name && valid_move?(piece, new_x, new_y)
     end 
     return nil
@@ -74,6 +74,10 @@ class Board < Granite::ORM::Base
   def valid_move?(piece : Piece, new_x : String, new_y : String) : Bool
     # try to dyanmically check valid piece placement 
     # or write the rules in a library module?
+    piece.x = new_x.to_i
+    piece.y = new_y.to_i
+    piece.save
+    return true
   end
 
 end

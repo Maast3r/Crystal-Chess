@@ -24,5 +24,8 @@ Amber::Server.configure do |app|
 
   routes :web do
     get "/", HomeController, :index
+    get "/game", HomeController, :game
+    post "/move", HomeController, :move
+    patch "/movee", HomeController, :movee
   end
 end

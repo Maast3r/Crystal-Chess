@@ -6,6 +6,7 @@ CREATE TABLE pieces (
   x INT,
   y INT,
   taken BOOLEAN,
+  points INT,
   board_id BIGINT,
   created_at TIMESTAMP,
   updated_at TIMESTAMP
