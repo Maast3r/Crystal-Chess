@@ -8,16 +8,25 @@ class Board < Granite::ORM::Base
   belongs_to :game
 
   field title : String
+  field turn : Bool
   # id : Int64 primary key is created for you
   timestamps
 
   @row_white = 0
   @row_black = 7
-
   @letter_to_num = {
     "a": 0, "b": 1, "c": 2, "d": 3,
     "e": 4, "f": 5, "g": 6, "h": 7
   }
+ 
+  @pieceInstances = {
+    "P": [] of Pawn
+  }
+  @@rooks = 0
+  @@knights = 0
+  @@bishops = 0
+  @@queen = 0
+  @@king = 0
 
   def initialize_pieces(game : Game) : Nil
     self.save
@@ -62,21 +71,18 @@ class Board < Granite::ORM::Base
   # but it is easier to code with it in. we can remove it in the front-end
   # We can also eventually use valid move for an endpoint that sends a specific piece with
   # the new x and y so we support both inputs
-  #
+  # Ex:
+  # Pe2-e4 = pawn to e4
+  # Qd3xd2 = queen takes on d2
+  
   def parse_move(move : String) : Piece | Nil
-    name, new_x, new_y  = move.split("")
-    pieces.each do |piece|
-      return piece if piece.name == name && valid_move?(piece, new_x, new_y)
-    end 
+    name, old_x, old_y, move_type, new_x, new_y  = move.split("")
     return nil
   end
 
-  def valid_move?(piece : Piece, new_x : String, new_y : String) : Bool
+  def valid_move?(piece : AbstractPiece, new_x : String, new_y : String) : Bool
     # try to dyanmically check valid piece placement 
-    # or write the rules in a library module?
-    piece.x = new_x.to_i
-    piece.y = new_y.to_i
-    piece.save
+    piece.valid_move?
     return true
   end
 

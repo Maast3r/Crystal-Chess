@@ -2,6 +2,7 @@
 CREATE TABLE boards (
   id BIGSERIAL PRIMARY KEY,
   title VARCHAR(255),
+  turn BOOLEAN,
   game_id BIGINT,
   created_at TIMESTAMP,
   updated_at TIMESTAMP
