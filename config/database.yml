@@ -1,2 +1,2 @@
 pg:
-  database: postgres://postgres:@localhost:5432/crystal_chess_development
+  database: postgres://postgres:pg@localhost:5432/crystal_chess_development

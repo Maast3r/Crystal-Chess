@@ -19,14 +19,14 @@ class Board < Granite::ORM::Base
     "e": 4, "f": 5, "g": 6, "h": 7
   }
  
-  @pieceInstances = {
-    "P": [] of Pawn
+  @piece_instances = {
+    "P": [] of AbstractPiece,
+    "R": [] of AbstractPiece,
+    "N": [] of AbstractPiece,
+    "B": [] of AbstractPiece,
+    "Q": [] of AbstractPiece,
+    "K": [] of AbstractPiece
   }
-  @@rooks = 0
-  @@knights = 0
-  @@bishops = 0
-  @@queen = 0
-  @@king = 0
 
   def initialize_pieces(game : Game) : Nil
     self.save
@@ -49,6 +49,8 @@ class Board < Granite::ORM::Base
     piece = Piece.new(name: name, color: color, x: x, y: y, taken: false, points: 0)
     piece.board = self
     piece.save
+
+    @piece_instances[name] << PieceFactory.create_piece(name, piece)
   end
 
   def initialize_pawns : Nil
@@ -75,16 +77,15 @@ class Board < Granite::ORM::Base
   # Pe2-e4 = pawn to e4
   # Qd3xd2 = queen takes on d2
   
-  def parse_move(move : String) : Piece | Nil
+  def parse_move(move : String) : AbstractPiece | Nil
     name, old_x, old_y, move_type, new_x, new_y  = move.split("")
+    @piece_instances[name].each do |piece_instance|
+      if piece_instance.piece.x == old_x && piece_instance.piece.y == old_y
+        piece_instance.valid_move?(new_x.to_i, new_y.to_i) 
+        return piece_instance
+      end
+    end
     return nil
   end
-
-  def valid_move?(piece : AbstractPiece, new_x : String, new_y : String) : Bool
-    # try to dyanmically check valid piece placement 
-    piece.valid_move?
-    return true
-  end
-
 end
 
